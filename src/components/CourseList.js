@@ -1,9 +1,8 @@
 import React, { useState} from 'react';
-import { hasConflict, getCourseNumber, getCourseTerm, terms } from '../utilities/times';
+import { getCourseTerm, terms } from '../utilities/times';
+import { Course } from './Course';
 
-const toggle = (x, lst) => (
-    lst.includes(x) ? lst.filter(y => y !== x) : [x, ...lst]
-  );
+
 
 export const CourseList = ({ courses }) => {
     const [term, setTerm] = useState('Fall');
@@ -25,26 +24,6 @@ export const CourseList = ({ courses }) => {
     );
   };
 
-  const Course = ({ course, selected, setSelected }) => {
-    const isSelected = selected.includes(course);
-    const isDisabled = !isSelected && hasConflict(course, selected);
-    const style = {
-      backgroundColor: isDisabled? 'lightgrey' : isSelected ? 'lightgreen' : 'white'
-    };
-    return (
-      <div className="card m-1 p-2" 
-        style={style}
-        onClick={ isDisabled ? null : () => setSelected(toggle(course, selected))}>
-        <div className="card-body">
-          <div className="card-title">{ getCourseTerm(course) } CS { getCourseNumber(course) }</div>
-          <div className="card-text">{ course.title }</div>
-          <div className="card-text">{ course.meets }</div>
-        </div>
-      </div>
-    );
-  };
-
-
   const TermSelector = ({term, setTerm}) => (
     <div className="btn-group">
     { 
@@ -59,7 +38,7 @@ export const CourseList = ({ courses }) => {
     <>
       <input type="radio" id={term} className="btn-check" checked={checked} autoComplete="off"
         onChange={() => setTerm(term)} />
-      <label class="btn btn-success m-1 p-2" htmlFor={term}>
+      <label className="btn btn-success m-1 p-2" htmlFor={term}>
       { term }
       </label>
     </>
